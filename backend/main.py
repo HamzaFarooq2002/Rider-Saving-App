@@ -144,6 +144,66 @@ def get_wallet(rider_id: int):
         "transactions": transactions,
     }
 
+@app.get("/rider/{rider_id}/savings")
+def get_savings(rider_id: int):
+
+    level = get_level(rider_db["xp"])
+
+    return {
+        "total_saved": rider_db["total_saved"],
+        "monthly_saved": rider_db["monthly_saved"],
+        "weekly_saved": rider_db.get("weekly_saved", 0),
+        "goal_amount": rider_db["goal_amount"],
+        "goal_progress": round(
+            (rider_db["total_saved"] / rider_db["goal_amount"]) * 100, 1
+        ),
+        "streak": rider_db.get("streak", 0),
+        "xp": rider_db["xp"],
+        "level": level["name"],
+        "level_icon": level["icon"],
+        "level_min": level["min_xp"],
+        "level_max": level["max_xp"],
+        "total_rides": rider_db["total_rides"],
+        "saving_rides": rider_db.get("saving_rides", 0)
+    }
+
+@app.get("/rider/{rider_id}/badges")
+def get_badges(rider_id: int):
+
+    badges = []
+
+    if rider_db["total_saved"] >= 100:
+        badges.append({
+            "name": "First Save",
+            "icon": "💰",
+            "description": "Saved your first Rs.100"
+        })
+
+    if rider_db["total_saved"] >= 1000:
+        badges.append({
+            "name": "Saver Pro",
+            "icon": "🏆",
+            "description": "Saved over Rs.1000"
+        })
+
+    if rider_db["xp"] >= 500:
+        badges.append({
+            "name": "XP Warrior",
+            "icon": "⚡",
+            "description": "Earned 500 XP"
+        })
+
+    if rider_db["total_rides"] >= 50:
+        badges.append({
+            "name": "Ride Hero",
+            "icon": "🛵",
+            "description": "Completed 50 rides"
+        })
+
+    return badges
+
+
+
 
 @app.post("/rider/{rider_id}/payment")
 def receive_payment(rider_id: int, payment: PaymentRequest):
