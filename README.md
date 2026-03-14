@@ -3,7 +3,7 @@
 A **gamified savings app** for ride-share drivers to automatically save money from ride earnings and track progress toward financial goals.
 
 ![Tech Stack](https://img.shields.io/badge/React-Vite-blue) ![Backend](https://img.shields.io/badge/FastAPI-Python-green) ![Deployment](https://img.shields.io/badge/Vercel-Railway-blueviolet)
-
+Vercel Link: https://rider-saving-nulmm7w92-hamzafarooq2002s-projects.vercel.app/
 ---
 
 ## 🎯 Problem & Solution
