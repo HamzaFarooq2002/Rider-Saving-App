@@ -4,8 +4,33 @@ const h = { 'Content-Type': 'application/json' };
 export const api = {
   getRider: () => fetch(`${BASE}/rider/1`).then(r => r.json()),
   getWallet: () => fetch(`${BASE}/rider/1/wallet`).then(r => r.json()),
-  getSavings: () => fetch(`${BASE}/rider/1/savings`).then(r => r.json()),
-  getBadges: () => fetch(`${BASE}/rider/1/badges`).then(r => r.json()),
+  getSavings: () =>
+  fetch(`${BASE}/rider/1/wallet`)
+    .then(r => r.json())
+    .then(data => ({
+      total_saved: data.total_saved,
+      monthly_saved: data.monthly_saved,
+      weekly_saved: 0,
+      goal_progress: 0,
+      goal_amount: 5000,
+      streak: 0,
+      xp: 0,
+      level: "Starter",
+      level_icon: "🥉",
+      level_min: 0,
+      level_max: 1000,
+      total_rides: 0,
+      saving_rides: 0
+    })),
+
+  getBadges: async () => {
+  return [
+    { name: "First Save", icon: "💰" },
+    { name: "Consistent Saver", icon: "🔥" },
+    { name: "Goal Builder", icon: "🎯" }
+  ];
+},
+
   getCommunity: () => fetch(`${BASE}/community/stats`).then(r => r.json()),
 
   receivePayment: (amount, customer_name) =>
